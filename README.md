@@ -60,7 +60,8 @@ This is created with pyhton using Breadth-First Search (BFS) algorithm.
 ```
 
 <b>State syntax</b>
-Each node on the graph has a four digit number. The each digit represents where the riddle participants are located. 
+<p>Each node on the graph has a four digit number. The each digit represents where the riddle participants are located.</p>
+
 <i>Start State</i> - Everyone is on the upper side.
 ```
 0 Farmer
