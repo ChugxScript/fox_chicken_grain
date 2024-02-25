@@ -84,50 +84,56 @@ def bfs(initial_state):
 
     return None
 
+def print_solution(solution):
+    # Print the solution
+    if solution:
+        num_possible_states = sum([4 ** i for i in range(len(solution))])
+        num_valid_states = len(solution)
+        print("Number of possible states:", num_possible_states)
+        print("Number of valid states:", num_valid_states)
+        print("Solution:", [state.farmer * 1000 + state.fox * 100 + state.chicken * 10 + state.grain for state in solution])
+        for i, state in enumerate(solution):
+            print(f"+---+---+---+STEP [{i}]+---+---+---+")
+            print("  +---+---+---+---+---+---+---+")
+            for row in range(3):
+                print("  |", end="")
+                for col in range(7):
+                    if row == 0:  # Starting side
+                        if col == 0 and not state.farmer:
+                            print(" F ", end="|")
+                        elif col == 2 and not state.fox:
+                            print(" X ", end="|")
+                        elif col == 4 and not state.chicken:
+                            print(" C ", end="|")
+                        elif col == 6 and not state.grain:
+                            print(" G ", end="|")
+                        else:
+                            print("   ", end="|")
+                    elif row == 1:  # River
+                        print("   ", end="|")
+                    else:  # Ending side
+                        if col == 0 and state.farmer:
+                            print(" F ", end="|")
+                        elif col == 2 and state.fox:
+                            print(" X ", end="|")
+                        elif col == 4 and state.chicken:
+                            print(" C ", end="|")
+                        elif col == 6 and state.grain:
+                            print(" G ", end="|")
+                        else:
+                            print("   ", end="|")
+                print("\n  +---+---+---+---+---+---+---+")
+            if i < len(solution) - 1:
+                print()
+    else:
+        print("No solution found.")
+
 # Initial state: Farmer, Fox, Chicken, Grain (0 represents they are on the starting side)
 initial_state = State(0, 0, 0, 0)
-solution = bfs(initial_state)
+print("\n\n+---+---+---+INITIAL STATE+---+---+---+")
+print_solution(bfs(initial_state))
 
-# Print the solution
-if solution:
-    num_possible_states = sum([4 ** i for i in range(len(solution))])
-    num_valid_states = len(solution)
-    print("Number of possible states:", num_possible_states)
-    print("Number of valid states:", num_valid_states)
-    print("Solution:", [state.farmer * 1000 + state.fox * 100 + state.chicken * 10 + state.grain for state in solution])
-    for i, state in enumerate(solution):
-        print(f"+---+---+---+STEP [{i}]+---+---+---+")
-        print("  +---+---+---+---+---+---+---+")
-        for row in range(3):
-            print("  |", end="")
-            for col in range(7):
-                if row == 0:  # Starting side
-                    if col == 0 and not state.farmer:
-                        print(" F ", end="|")
-                    elif col == 2 and not state.fox:
-                        print(" X ", end="|")
-                    elif col == 4 and not state.chicken:
-                        print(" C ", end="|")
-                    elif col == 6 and not state.grain:
-                        print(" G ", end="|")
-                    else:
-                        print("   ", end="|")
-                elif row == 1:  # River
-                    print("   ", end="|")
-                else:  # Ending side
-                    if col == 0 and state.farmer:
-                        print(" F ", end="|")
-                    elif col == 2 and state.fox:
-                        print(" X ", end="|")
-                    elif col == 4 and state.chicken:
-                        print(" C ", end="|")
-                    elif col == 6 and state.grain:
-                        print(" G ", end="|")
-                    else:
-                        print("   ", end="|")
-            print("\n  +---+---+---+---+---+---+---+")
-        if i < len(solution) - 1:
-            print()
-else:
-    print("No solution found.")
-    
+# Random state: The farmer and the chicken are in the down side, the fox and grain is on the upper side
+random_state = State(1, 0, 1, 0)
+print("\n\n+---+---+---+RANDOM STATE+---+---+---+")
+print_solution(bfs(random_state))
